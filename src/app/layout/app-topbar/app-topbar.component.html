@@ -1,0 +1,160 @@
+<div class="layout-topbar">
+  <div class="layout-topbar-wrapper">
+    <div class="layout-topbar-left">
+      <div class="layout-topbar-logo-wrapper">
+        <a class="layout-topbar-logo" href="#">
+          <img alt="Group Mood Logo" src="assets/images/groupmood.png"/>
+
+        </a>
+      </div>
+      <a (click)="app.onMenuButtonClick($event)" class="sidebar-menu-button" href="#">
+        <i class="pi pi-bars"></i>
+      </a>
+      <a (click)="app.onMegaMenuMobileButtonClick($event)" class="megamenu-mobile-button" href="#">
+        <i class="pi pi-align-right megamenu-icon"></i>
+      </a>
+      <a (click)="app.onTopbarMobileMenuButtonClick($event)" class="topbar-menu-mobile-button" href="#">
+        <i class="pi pi-ellipsis-v"></i>
+      </a>
+
+    </div>
+    <div class="layout-topbar-right fadeInDown">
+      <ul class="layout-topbar-actions">
+        <li #search [ngClass]="{'active-topmenuitem': app.activeTopbarItem === search}" class="search-item topbar-item">
+          <a (click)="app.onTopbarItemClick($event,search)" class="topbar-search-mobile-button" href="#">
+            <i class="topbar-icon pi pi-search"></i>
+          </a>
+          <ul (click)="app.topbarItemClick = true" class="search-item-submenu fadeInDown">
+            <li>
+							<span class="md-inputfield search-input-wrapper">
+								<input pInputText placeholder="Search..."/>
+								<i class="pi pi-search"></i>
+							</span>
+            </li>
+          </ul>
+        </li>
+        <li #calendar [ngClass]="{'active-topmenuitem': app.activeTopbarItem === calendar}" class="topbar-item">
+          <a (click)="app.onTopbarItemClick($event,calendar)" href="#">
+            <i class="topbar-icon pi pi-calendar"></i>
+          </a>
+          <ul (click)="app.topbarItemClick = true" class="fadeInDown">
+            <li class="layout-submenu-header">
+              <h1>Calendar</h1>
+            </li>
+            <li class="calendar">
+              <p-calendar [inline]="true"></p-calendar>
+            </li>
+          </ul>
+        </li>
+        <li #message [ngClass]="{'active-topmenuitem': app.activeTopbarItem === message}" class="topbar-item">
+          <a (click)="app.onTopbarItemClick($event,message)" href="#">
+            <i class="topbar-icon pi pi-inbox"></i>
+          </a>
+          <ul class="fadeInDown">
+            <li class="layout-submenu-header">
+              <h1>Messages</h1>
+              <span>Today, you have new x messages</span>
+            </li>
+            <li class="layout-submenu-item">
+              <p>message UI to be implemented</p>
+            </li>
+          </ul>
+        </li>
+
+        <li #profile [ngClass]="{'active-topmenuitem': app.activeTopbarItem === profile}"
+            class="topbar-item profile-item">
+          <a (click)="app.onTopbarItemClick($event,profile)" href="#">
+						<span class="profile-image-wrapper">
+							<img alt="mirage-layout" src="assets/images/avatar-placeholder.jpeg"/>
+						</span>
+            <span class="profile-info-wrapper">
+							<h3>Rich</h3>
+
+						</span>
+          </a>
+          <ul class="profile-item-submenu fadeInDown">
+
+
+            <li class="layout-submenu-item">
+              <i class="pi pi-users icon icon-3"></i>
+              <div class="menu-text">
+                <p>Login to Spotify</p>
+                <span>Login in to play and create playlists</span>
+              </div>
+              <i class="pi pi-angle-right"></i>
+            </li>
+            <li class="layout-submenu-item">
+              <i class="pi pi-users icon icon-2"></i>
+              <div class="menu-text">
+                <p>Log out of Spotify</p>
+
+              </div>
+              <i class="pi pi-angle-right"></i>
+            </li>
+            <li class="layout-submenu-footer">
+              <button class="signout-button">Sign Out</button>
+
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a (click)="app.onRightPanelButtonClick($event)" class="layout-rightpanel-button" href="#">
+            <i class="pi pi-arrow-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="profile-mobile-wrapper">
+        <li #mobileProfile [ngClass]="{'active-topmenuitem': app.activeTopbarItem === mobileProfile}"
+            class="topbar-item profile-item">
+          <a (click)="app.onTopbarItemClick($event,mobileProfile)" href="#">
+						<span class="profile-image-wrapper">
+							<img alt="mirage-layout" src="assets/images/avatar-placeholder.jpeg"/>
+						</span>
+            <span class="profile-info-wrapper">
+							<h3>Rich</h3>
+
+						</span>
+          </a>
+          <ul class="fadeInDown">
+            <li class="profile-submenu-header">
+
+              <div class="profile">
+                <img alt="mirage-layout" src="assets/images/avatar-placeholder.jpeg" width="45"/>
+                <h1>Rich</h1>
+
+              </div>
+            </li>
+            <li>
+              <i class="pi pi-list icon icon-1"></i>
+              <div class="menu-text">
+                <p>Tasks</p>
+                <span>3 open issues</span>
+              </div>
+              <i class="pi pi-angle-right"></i>
+            </li>
+            <li>
+              <i class="pi pi-shopping-cart icon icon-2"></i>
+              <div class="menu-text">
+                <p>Payments</p>
+                <span>24 new</span>
+              </div>
+              <i class="pi pi-angle-right"></i>
+            </li>
+            <li>
+              <i class="pi pi-users icon icon-3"></i>
+              <div class="menu-text">
+                <p>Clients</p>
+                <span>+80%</span>
+              </div>
+              <i class="pi pi-angle-right"></i>
+            </li>
+            <li class="layout-submenu-footer">
+              <button class="signout-button">Sign Out</button>
+              <button class="buy-mirage-button">Buy Mirage</button>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

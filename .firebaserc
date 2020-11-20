@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "groupmood-60906": {
+      "hosting": {
+        "groupmood": [
+          "groupmood-60906"
+        ]
+      }
+    }
+  }
+}
