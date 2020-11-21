@@ -18,6 +18,14 @@ import {MenubarModule} from 'primeng/menubar';
 import {AppMenuitemComponent} from './layout/app-menu/app.menuitem.component';
 import {BreadcrumbService} from './layout/app-breadcrumb/breadcrumb.service';
 import {CheckboxModule} from 'primeng/checkbox';
+import { SpotifyComponent } from './spotify/spotify.component';
+import {HTTP_INTERCEPTORS, HttpClientJsonpModule, HttpClientModule} from '@angular/common/http';
+import {AngularFireFunctions, AngularFireFunctionsModule} from '@angular/fire/functions';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AuthInterceptor} from './interceptors/http-request.interceptor';
+
 
 @NgModule({
   declarations: [
@@ -28,11 +36,16 @@ import {CheckboxModule} from 'primeng/checkbox';
     AppBreadcrumbComponent,
     AppFooterComponent,
     AppMenuitemComponent,
-    AppTopbarComponent
+    AppTopbarComponent,
+    SpotifyComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    HttpClientJsonpModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireFunctionsModule,
     AppRoutingModule,
     CalendarModule,
     MenuModule,
@@ -44,7 +57,10 @@ import {CheckboxModule} from 'primeng/checkbox';
   ],
   providers: [
     MenuService,
-    BreadcrumbService
+    BreadcrumbService,
+    AngularFireFunctions,
+    AngularFireAuth,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

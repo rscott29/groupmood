@@ -16,10 +16,10 @@ export class AppMenuComponent implements OnInit {
     this.model = [
       {label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/']},
       {
-        label: 'Spotify', icon: 'pi pi-fw pi-star', routerLink: ['/uikit'],
+        label: 'Spotify', icon: 'pi pi-fw pi-star', routerLink: ['/'],
         items: [
-          {label: 'Login', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout']},
-          {label: 'Dashboard', icon: 'pi pi-fw pi-check-square', routerLink: ['/uikit/input']},
+          {label: 'Login', icon: 'pi pi-fw pi-id-card', routerLink: ['/']},
+          {label: 'Dashboard', icon: 'pi pi-fw pi-check-square', routerLink: ['/spotify']},
         ]
       },
       {
