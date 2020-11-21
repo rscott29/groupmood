@@ -25,21 +25,17 @@ import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AuthInterceptor} from './interceptors/http-request.interceptor';
+import {BreadcrumbModule} from 'primeng/breadcrumb';
+import {SharedModule} from './shared/shared.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AppMainComponent,
-    AppMenuComponent,
-    AppRightpanelComponent,
-    AppBreadcrumbComponent,
-    AppFooterComponent,
-    AppMenuitemComponent,
-    AppTopbarComponent,
     SpotifyComponent
   ],
   imports: [
+    SharedModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -47,17 +43,12 @@ import {AuthInterceptor} from './interceptors/http-request.interceptor';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireFunctionsModule,
     AppRoutingModule,
-    CalendarModule,
-    MenuModule,
-    MenubarModule,
-    MegaMenuModule,
-    CheckboxModule,
+
 
 
   ],
   providers: [
-    MenuService,
-    BreadcrumbService,
+
     AngularFireFunctions,
     AngularFireAuth,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

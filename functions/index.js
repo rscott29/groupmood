@@ -18,7 +18,7 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const Spotify = new SpotifyWebApi({
   clientId: functions.config().spotify.client_id,
   clientSecret: functions.config().spotify.client_secret,
-  redirectUri: `http://localhost:5000/spotify`,
+    redirectUri: `https://localhost:4200/spotify`,
 });
 
 // Scopes to request.

@@ -1,13 +1,11 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {AppMainComponent} from './layout/app-main/app-main.component';
-import {SpotifyComponent} from './spotify/spotify.component';
 
 const routes: Routes = [
-  { path: '', component: AppMainComponent,
-    children: [
-      { path: 'spotify', component: SpotifyComponent }
-      ]
+  {
+    path: '',
+    loadChildren: () => import('./layout/layout.module').then(m => m.LayoutModule)
   },
 ];
 
@@ -15,4 +13,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+
+import {SpotifyComponent} from '../spotify/spotify.component';
 import {AppMainComponent} from './app-main/app-main.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AppMainComponent
+    component: AppMainComponent,
+    children: [
+      {path: 'spotify', component: SpotifyComponent}
+    ]
   }
 ];
 
