@@ -4,14 +4,18 @@ import {AngularFireFunctions} from '@angular/fire/functions';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {AngularFireDatabase} from '@angular/fire/database';
+import {AngularFireDatabase, AngularFireList} from '@angular/fire/database';
+import {Users} from '../models/Users';
+import {CurrentUser} from '../models/CurrentUser';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpotifyService {
-
+  uid: string | undefined = '';
+  query: Observable<any> = new Observable<any>();
+  token: CurrentUser[] = [];
   constructor(
     private http: HttpClient,
     private fbFunction: AngularFireFunctions,
@@ -33,16 +37,29 @@ export class SpotifyService {
     );
   }
 
-  getUserCredentials(): Observable<any> {
-    return this.db.object('spotifyAccessToken').valueChanges().pipe(map( (res: any) => {
-        return Object.values(res).toString();
-    }));
+  getPlaylistById(id: string): Observable<any> {
+    return this.http.get(`https://api.spotify.com/v1/users/${id}/playlists`);
   }
 
-  getPlaylistById(): Observable<any> {
-    return this.http.get('https://api.spotify.com/v1/playlists/7MBnD1OTuCW2J8fOmYDL9E/tracks');
+  getAllUsers(): Observable<Users[]> {
+    return this.db.list<Users>('spotifyUser').valueChanges();
   }
+   signOutSpotify(): void {
+     this.fbAuth.signOut();
+     window.location.href = 'https://accounts.spotify.com/en/status';
+   }
+  getCurrentAccessToken(): Observable<any> {
 
+    this.fbAuth.authState.subscribe(res => {
+      this.uid = res?.uid;
+
+      this.query = this.db.object(`spotifyUser/${this.uid}`).valueChanges()
+        .pipe(
+          map((response: CurrentUser) => response.token) as any
+        );
+    });
+    return this.query;
+  }
 
   private tokenReceived(data: any): void {
     if (data) {

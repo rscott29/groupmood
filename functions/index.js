@@ -18,11 +18,11 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const Spotify = new SpotifyWebApi({
   clientId: functions.config().spotify.client_id,
   clientSecret: functions.config().spotify.client_secret,
-    redirectUri: `https://localhost:4200/spotify`,
+  redirectUri: `https://localhost:4200/spotify`,
 });
 
 // Scopes to request.
-const OAUTH_SCOPES = ['user-read-email'];
+const OAUTH_SCOPES = ['user-read-email','playlist-read-collaborative'];
 
 /**
  * Redirects the User to the Spotify authentication consent screen. Also the 'state' cookie is set for later state
@@ -65,6 +65,7 @@ exports.token = functions.https.onRequest((req, res) => {
         }
         console.log('Received Access Token:', data.body['access_token']);
         Spotify.setAccessToken(data.body['access_token']);
+        Spotify.setRefreshToken(data.body['refresh_token']);
 
         Spotify.getMe(async (error, userResults) => {
           if (error) {
@@ -73,13 +74,14 @@ exports.token = functions.https.onRequest((req, res) => {
           console.log('Auth code exchange result received:', userResults);
           // We have a Spotify access token and the user identity now.
           const accessToken = data.body['access_token'];
+          const refreshToken = data.body['refresh_token'];
           const spotifyUserID = userResults.body['id'];
           const profilePic = userResults.body['images'][0]['url'];
           const userName = userResults.body['display_name'];
           const email = userResults.body['email'];
 
           // Create a Firebase account and get the Custom Auth Token.
-          const firebaseToken = await createFirebaseAccount(spotifyUserID, userName, profilePic, email, accessToken);
+          const firebaseToken = await createFirebaseAccount(spotifyUserID, userName, profilePic, email, accessToken, refreshToken);
           // Serve an HTML page that signs the user in and updates the user profile.
           res.jsonp({token: firebaseToken});
         });
@@ -99,12 +101,20 @@ exports.token = functions.https.onRequest((req, res) => {
  *
  * @returns {Promise<string>} The Firebase custom auth token in a promise.
  */
-async function createFirebaseAccount(spotifyID, displayName, photoURL, email, accessToken) {
+async function createFirebaseAccount(spotifyID, displayName, photoURL, email, accessToken, refreshToken) {
   // The UID we'll assign to the user.
   const uid = `spotify:${spotifyID}`;
 
-  // Save the access token to the Firebase Realtime Database.
-  const databaseTask = admin.database().ref(`/spotifyAccessToken/${uid}`).set(accessToken);
+  // Save the user to the Firebase Realtime Database.
+  const databaseTask = admin.database().ref(`/spotifyUser/${uid}`).set(
+    {
+      id: spotifyID,
+      token: accessToken,
+      refreshToken: refreshToken,
+      displayName: displayName,
+      email: email
+    }
+  );
 
   // Create or update the user account.
   const userCreationTask = admin.auth().updateUser(uid, {

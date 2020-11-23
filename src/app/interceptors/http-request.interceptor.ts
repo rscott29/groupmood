@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private addAuth(original: HttpRequest<any>): Observable<HttpRequest<any>> {
-    return from(this.spotifyService.getUserCredentials()).pipe(
+    return from(this.spotifyService.getCurrentAccessToken()).pipe(
       map(token => {
         const req = original.clone({
           setHeaders: { Authorization: `Bearer ${token}` }

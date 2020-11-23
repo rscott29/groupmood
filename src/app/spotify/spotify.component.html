@@ -1,2 +1,26 @@
-<button (click)="login()">Login to Spotify</button>
-<button (click)="getToken()">Get Token</button>
+<div class="box p-mb-6">
+
+  <button (click)="login()" class="p-mr-1 p-button-outlined " label="Login" pButton type="button"></button>
+  <button (click)="getToken()" class="p-button-outlined" label="Get Playlists" pButton type="button"></button>
+  <button (click)="logout()" class="p-button-outlined" label="Logout" pButton type="button"></button>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-fixed" style="width:300px">
+    <p-listbox  (onClick)="getPlaylists($event)" [(ngModel)]="selectedUser" [checkbox]="true" [filter]="true" [listStyle]="{'max-height':'250px'}"
+               [metaKeySelection]="false" [multiple]="true" [options]="users" [style]="{'width':'15rem'}"
+               optionLabel="name">
+      <ng-template let-user pTemplate="user">
+        <div class="user-item">
+          <div>{{user.displayName}}</div>
+<!--          <div>{{user.id}}</div>-->
+        </div>
+      </ng-template>
+    </p-listbox>
+  </div>
+  <div class="p-col">
+    <div class="box">
+      <p-slideMenu [menuWidth]="175" [model]="slideItems" [viewportHeight]="250"></p-slideMenu>
+    </div>
+  </div>
+</div>
